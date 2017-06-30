@@ -1,0 +1,6 @@
+Nous avons un fichier .pl
+Lorsqu'on fait un cat de ce fichier nous pouvons voir qu'il y a une bibliotheque CGI et localhost:4747
+Nous allons donc utiliser une requete web avec la commande curl.
+curl http://localhost:4747?x=\`getflag`\
+Nous obtenons notre flag: ne2searoevaevoem4ov4ar8ap
+Car c'est dans la variable x que nous la cherchons

